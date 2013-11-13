@@ -1,0 +1,9 @@
+
+.error-message {
+    display: none;
+}
+
+.required {
+    color: #FF0000;
+}
+

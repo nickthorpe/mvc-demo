@@ -5,6 +5,12 @@ var PostsModel = {
     },
 
     refresh: function() {
+        //if already refreshing, ignore this
+        if (this.refreshing)
+            return;
+
+        this.refreshing = true;
+
         var query = new Parse.Query(Post);
         query.include('author');
         query.descending('createdAt');
@@ -13,11 +19,13 @@ var PostsModel = {
         var self = this;
         query.find({
             success: function(posts) {
+                self.refreshing = false;
                 self.posts = posts;
                 self.trigger('complete');
                 self.trigger('change');
             },
             error: function(error) {
+                self.refreshing = false;
                 self.trigger('error', error);
             }
         });

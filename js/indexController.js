@@ -33,6 +33,11 @@ $(function(){
     });
 
     postsModel.refresh();
+
+    //auto-refresh the postsModel on a timer
+    window.setInterval(function(){
+        postsModel.refresh();
+    }, 15000);
     
     //new post view and model
     var postModel = new Post();

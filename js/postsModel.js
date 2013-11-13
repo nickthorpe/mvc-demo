@@ -9,10 +9,12 @@ var PostsModel = {
         query.include('author');
         query.descending('createdAt');
         query.limit(100);
+        this.trigger('query');
         var self = this;
         query.find({
             success: function(posts) {
                 self.posts = posts;
+                self.trigger('complete');
                 self.trigger('change');
             },
             error: function(error) {

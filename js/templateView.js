@@ -3,36 +3,53 @@
 var TemplateView = {
     render: function() {
         var items = this.model.getItems();
-        var idxItem;
-        var item;
-        var clonedTemplate;
-        var idxBoundElem;
-        var boundElems;
+        var idx;
+
+        this.container.empty();
+
+        for (idx = 0; idx < items.length; ++idx) {
+            this.renderItem(items[idx]);
+        } //for each item in model list
+
+    }, //render()
+
+    renderItem: function(item) {
+        var clonedTemplate = this.template.clone();
+        
+        var boundElems = clonedTemplate.find('[data-model-attr]');
+        var idx;
         var boundElem;
         var attr;
         var val;
 
-        this.container.empty();
-        this.container.addClass('working');
+        for (idx = 0; idx < boundElems.length; ++idx) {
+            boundElem = $(boundElems[idx]);
+            attr = boundElem.attr('data-model-attr');
 
-        for (idxItem = 0; idxItem < items.length; ++idxItem) {
-            item = items[idxItem];
-            clonedTemplate = this.template.clone();
-            
-            boundElems = clonedTemplate.find('[data-model-attr]');
-            for (idxBoundElem = 0; idxBoundElem < boundElems.length; ++idxBoundElem) {
-                boundElem = $(boundElems[idxBoundElem]);
-                attr = boundElem.attr('data-model-attr');
-                val = this.getModelAttr(attr.split('.'), item);
-                if (undefined != val)
-                    boundElem.html(htmlEncode(val));
+            //Parse includes three system-maintained properties
+            //on every object: id, createdAt, and updatedAt
+            //unfortunately, these are not included in the
+            //standard attributes map, so if the attr is one of
+            //these, we need to get the value directly from the
+            //item as a property instead of using .get()
+            switch (attr) {
+                case 'id':
+                    val = item[attr];
+                    break;
+                case 'createdAt':
+                case 'updatedAt':
+                    val = item[attr].toLocaleString();
+                    break;
+                default:
+                    val = this.getModelAttr(attr.split('.'), item);
             }
 
-            this.container.append(clonedTemplate);
-        } //for each item in model list
+            if (undefined != val)
+                boundElem.html(htmlEncode(val));
+        }
 
-        this.container.removeClass('working');
-    }, //render()
+        this.container.append(clonedTemplate);
+    },
 
     getModelAttr: function(attrs, curObj) {
         var attr = attrs.shift();

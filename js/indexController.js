@@ -13,15 +13,23 @@ $(function(){
     $('.name').html(user.get('name') || '(unknown)');
 
     //get the current set of posts
+    var postsContainer = $('.posts-container');
     var postsModel = createPostsModel();
-    postsModel.on('error', function(error){
-        reportError(error.message);
-    });
-
     var postsView = createTemplateView({
         model: postsModel,
         template: $('.post-template'),
         container: $('.posts-container')
+    });
+   
+    postsModel.on('query', function(){
+        postsContainer.addClass('working');
+    });
+    postsModel.on('complete', function(){
+        postsContainer.removeClass('working');
+    });
+    postsModel.on('error', function(error){
+        postsContainer.removeClass('working');
+        reportError(error.message);
     });
 
     postsModel.refresh();
@@ -38,7 +46,7 @@ $(function(){
         var sharePostButton = $('.btn-share-post');
         sharePostButton.addClass('working').attr('disabled', true);
 
-        //set the author to be the current user
+        //set the author to be the current user's name
         newPostView.model.set('author', Parse.User.current());
         newPostView.model.save(null, {
             success: function(postModel) {

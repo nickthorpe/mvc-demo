@@ -31,3 +31,7 @@ textarea {
 .author-username {
     font-weight: 200;
 }
+
+.post-created-at {
+    float: right;
+}

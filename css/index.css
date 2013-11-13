@@ -1,0 +1,33 @@
+
+.btn-signout {
+    margin: 1em;
+    float: right;
+}
+
+textarea { 
+    width: 100%;
+    height: 6em;
+}
+
+.post {
+    border: 1px solid #CCC;
+    border-radius: 4px;
+    padding: 1em;
+    margin-bottom: 1em;
+} 
+
+.posts {
+    margin-top: 2em;
+}
+
+.posts-container {
+    margin-top: 1em;
+}
+
+.author-name {
+    font-weight: bold;
+}
+
+.author-username {
+    font-weight: 200;
+}

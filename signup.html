@@ -13,30 +13,25 @@
 
             <p class="alert alert-danger error-message"></p>
 
-            <div class="signup-form" role="form">
+            <form class="signup-form" role="form" method="POST" action="#">
                 <div class="form-group">
                     <label for="email">Email Address <span class="required">*</span></label>
-                    <input type="email" class="form-control" id="email" placeholder="enter your email address">
+                    <input type="email" class="form-control" id="email" placeholder="enter your email address" data-model-attr="email" required >
+                </div>
+
+                <div class="form-group">
+                    <label for="name">Full Name <span class="required">*</span></label>
+                    <input type="text" class="form-control" id="name" placeholder="enter your full name" data-model-attr="name" required>
                 </div>
 
                 <div class="form-group">
                     <label for="password">New Password <span class="required">*</span></label>
-                    <input type="password" class="form-control" id="password" placeholder="enter your new password">
-                </div>
-                
-                <div class="form-group">
-                    <label for="firstName">First Name</label>
-                    <input type="text" class="form-control" id="firstName" placeholder="enter your first name">
+                    <input type="password" class="form-control" id="password" placeholder="enter your new password" data-model-attr="password" required>
                 </div>
 
-                <div class="form-group">
-                    <label for="firstName">Last Name</label>
-                    <input type="text" class="form-control" id="lastName" placeholder="enter your last name">
-                </div>
+                <button type="submit" class="btn btn-primary btn-signup">Sign Me Up!</button>
 
-                <button type="button" class="btn btn-primary btn-signup">Sign Me Up!</button>
-
-            </div> <!-- .signup-form -->
+            </form> <!-- .signup-form -->
 
             <div class="signin-link">
                 <h1>Already have an account?</h1>
@@ -52,7 +47,7 @@
         
         <script src="js/core.js"></script>
         <script src="js/eventSource.js"></script>
-        <script src="js/bootstrapFormView.js"></script>
+        <script src="js/formView.js"></script>
         <script src="js/signupController.js"></script>
     </body>
 </html>

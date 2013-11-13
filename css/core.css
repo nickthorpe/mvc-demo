@@ -7,3 +7,11 @@
     color: #FF0000;
 }
 
+.working:before {
+    content: url(../img/loading.gif);
+    margin-right: 1em;
+}
+
+.templates {
+    display: none;
+}

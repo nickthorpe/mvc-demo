@@ -5,16 +5,50 @@
         <title>Twatter</title>
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/core.css">
+        <link rel="stylesheet" href="css/index.css">
+
+        <!-- these are included in the head section, as I want to redirect
+        to the signup page immediately if the user isn't signed in -->
+        <script src="https://www.parsecdn.com/js/parse-1.2.12.min.js"></script>
+        <script src="js/core.js"></script>
+        <script src="js/ensureUser.js"></script>
     </head>
     <body>
         <div class="container">
-            <p><button type="button" class="btn btn-primary btn-signout">Sign Out</button></p>        
+            <button type="button" class="btn btn-default btn-signout">Sign Out</button>
+            <h1>Welcome <span class="name"></span>!</h1>
+
+            <p class="lead">What's on Your Mind?</p>
+            <p class="alert alert-danger error-message"></p>
+            <form method="POST" action="#" class="new-post-form" role="form">
+                <div class="form-group">
+                    <label for="content" class="sr-only">Post Content</label>
+                    <textarea name="content" id="content" class="form-control" autofocus data-model-attr="content"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-share-post">Share Your Thoughts With Everyone</button>
+            </form>
+
+            <div class="posts">
+                <p class="lead">What other people are saying...</p>
+                <div class="posts-container"></div>                
+            </div>
+        </div> <!-- .container -->
+
+        <div class="templates">
+            <div class="post-template post">
+                <p><span class="author-name" data-model-attr="author.name"></span> (<span class="author-username" data-model-attr="author.username"></span>)</p>
+                <p data-model-attr="content"></p>
+            </div>
         </div>
+
         
-        <script src="https://www.parsecdn.com/js/parse-1.2.12.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
-        <script src="js/core.js"></script>
+        <script src="js/postModel.js"></script>
+        <script src="js/eventSource.js"></script>
+        <script src="js/formView.js"></script>
+        <script src="js/newPostView.js"></script>
+        <script src="js/templateView.js"></script>
         <script src="js/indexController.js"></script>
     </body>
 </html>

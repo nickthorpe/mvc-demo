@@ -2,14 +2,14 @@
 $(function(){
     var signUpButton = $('.btn-signup');
     var user = new Parse.User();     
-    var view = createBootstrapFormView({
+    var view = createFormView({
         model: user,
-        form: $('.signup-form'),
-        submitButton: signUpButton
+        form: $('.signup-form')
     });
 
     view.on('submit', function(){
-        signUpButton.prop('disabled', true);
+        signUpButton.attr('disabled', true);
+        signUpButton.addClass('working');
 
         //use email attribute for username
         user.set('username', user.get('email'));
@@ -20,7 +20,8 @@ $(function(){
             },
             error: function(user, error) {
                 $('.error-message').html(htmlEncode(error.message)).fadeIn(200);
-                signUpButton.prop('disabled', false);
+                signUpButton.removeClass('working');
+                signUpButton.removeAttr('disabled');
             }
         });
     });

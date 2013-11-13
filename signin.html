@@ -13,7 +13,7 @@
 
             <p class="alert alert-danger error-message"></p>
 
-            <div class="signin-form" role="form">
+            <form class="signin-form" role="form" method="POST" action="#">
                 <div class="form-group">
                     <label for="email">Email Address</label>
                     <input type="email" class="form-control" id="email" placeholder="enter your email address">
@@ -24,9 +24,14 @@
                     <input type="password" class="form-control" id="password" placeholder="enter your new password">
                 </div>
                 
-                <button type="button" class="btn btn-primary btn-signup">Sign In</button>
+                <button type="submit" class="btn btn-primary btn-signin">Sign In</button>
 
-            </div> <!-- .signin-form -->
+            </form> <!-- .signin-form -->
+
+            <div class="signin-link">
+                <h1>Don't Already Have an Account?</h1>
+                <p><a class="btn btn-default" href="signup.html">Sign Up for a New Account</a></p>                
+            </div>
 
 
         </div> <!-- .container -->
@@ -37,7 +42,7 @@
         
         <script src="js/core.js"></script>
         <script src="js/eventSource.js"></script>
-        <script src="js/bootstrapFormView.js"></script>
-        <script src="js/signupController.js"></script>
+        <script src="js/formView.js"></script>
+        <script src="js/signinController.js"></script>
     </body>
 </html>

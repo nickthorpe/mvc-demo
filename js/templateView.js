@@ -2,6 +2,7 @@
 
 var TemplateView = {
     render: function() {
+        var items = this.model.getItems();
         var idxItem;
         var item;
         var clonedTemplate;
@@ -12,9 +13,10 @@ var TemplateView = {
         var val;
 
         this.container.empty();
+        this.container.addClass('working');
 
-        for (idxItem = 0; idxItem < this.model.length; ++idxItem) {
-            item = this.model[idxItem];
+        for (idxItem = 0; idxItem < items.length; ++idxItem) {
+            item = items[idxItem];
             clonedTemplate = this.template.clone();
             
             boundElems = clonedTemplate.find('[data-model-attr]');
@@ -28,6 +30,8 @@ var TemplateView = {
 
             this.container.append(clonedTemplate);
         } //for each item in model list
+
+        this.container.removeClass('working');
     }, //render()
 
     getModelAttr: function(attrs, curObj) {
@@ -36,11 +40,6 @@ var TemplateView = {
             return curObj.get(attr);
         else
             return this.getModelAttr(attrs, curObj.get(attr));
-    },
-
-    refresh: function(newModel) {
-        this.model = newModel;
-        this.render();
     }
 }; //TempalteView()
 
@@ -50,6 +49,11 @@ function createTemplateView(config) {
     apply(config, view);
     if (view.model) {
         view.render();
+
+        //re-render when model changes
+        view.model.on('change', function(){
+            view.render();
+        });
     }
     return view;
 } //createTemplateView()

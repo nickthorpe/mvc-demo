@@ -1,3 +1,5 @@
+"use strict";
+
 $(function(){
 
     function reportError(message) {
@@ -11,34 +13,22 @@ $(function(){
     $('.name').html(user.get('name') || '(unknown)');
 
     //get the current set of posts
+    var postsModel = createPostsModel();
+    postsModel.on('error', function(error){
+        reportError(error.message);
+    });
+
     var postsView = createTemplateView({
+        model: postsModel,
         template: $('.post-template'),
         container: $('.posts-container')
     });
 
-    function getAllPosts() {
-        var query = new Parse.Query(Post);
-        query.include('author');
-        query.descending('createdAt');
-        query.limit(100);
-        postsView.container.addClass('working');
-        query.find({
-            success: function(posts) {
-                postsView.container.removeClass('working');
-                postsView.refresh(posts);
-            },
-            error: function(error) {
-                postsView.container.removeClass('working');
-                reportError(error.message);
-            }
-        });
-    } //getAllPosts()
+    postsModel.refresh();
     
-    getAllPosts();
-
     //new post view and model
     var postModel = new Post();
-    var newPostView = createNewPostView({
+    var newPostView = createFormView({
         model: postModel,
         form: $('.new-post-form')
     });
@@ -48,12 +38,14 @@ $(function(){
         var sharePostButton = $('.btn-share-post');
         sharePostButton.addClass('working').attr('disabled', true);
 
-        postModel.save(null, {
+        //set the author to be the current user
+        newPostView.model.set('author', Parse.User.current());
+        newPostView.model.save(null, {
             success: function(postModel) {
                 //post saved!
                 //re-render posts view
-                newPostView.clear();
-                getAllPosts();
+                newPostView.setModel(new Post());
+                postsModel.refresh();
                 sharePostButton.removeClass('working').removeAttr('disabled');
             },
             error: function(postModel, error) {

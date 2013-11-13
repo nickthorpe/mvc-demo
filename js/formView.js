@@ -1,18 +1,18 @@
 
 var FormView = {
     render: function() {
-        var field;
+        var fields = this.form.find('[data-model-attr]');
 
-        //for each model attribute
-        for (attr in this.model.attributes) {
-            //find a form field with a matching id
-            //since Bootstrap makes us use ids for labels
-            //we might as well use them for view binding as well
-            field = this.form.find('[data-model-attr="' + attr + '"]');
-            if (field.length > 0 && field.val) {
-                field.val(this.model.get(attr));
-            }
-        } //for each model attribute
+        //for each field in the form
+        var model = this.model;
+        fields.each(function(index){
+            var field = $(this);
+            var attr = field.attr('data-model-attr');
+            if (field.val)
+                field.val(model.get(attr));
+            else
+                field.html(model.get(attr));
+        }); //for each field
 
     }, //render()
 
@@ -35,16 +35,10 @@ var FormView = {
         }); //for each field
     }, //updateModel()
 
-    clear: function() {
-        var fields = this.form.find('[data-model-attr]');
-
-        //for each field in the form
-        var model = this.model;
-        fields.each(function(index, element){
-            var field = $(this);
-            field.val('');
-        });
-    } //clear()
+    setModel: function(model) {
+        this.model = model;
+        this.render();
+    }
 }; //FormView
 
 
